@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>INSCRIÇÃO - CURSO EAD</title>
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .logo-esquerda,
+    .logo-central,
+    .logo-direita {
+      max-height: 50px;
+      height: auto;
+      width: auto;
+    }
+
+    .logo-central {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-direita {
+      margin-right: 10px;
+    }
+
+    .container {
+      padding-top: 100px;
+      padding-bottom: 50px;
+    }
+
+    form {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+    }
+
+    .grupo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .campo {
+      flex: 1 1 250px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 10px;
+    }
+
+    input, select {
+      padding: 8px;
+      font-size: 14px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #005820;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #006d2c;
+    }
+
+    .whatsapp-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 999;
+      background-color: #25d366;
+      border-radius: 50%;
+      padding: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .whatsapp-button img {
+      width: 30px;
+      height: 30px;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<header>
+  <img src="logo-panel.jpg" alt="Logo da Empresa" class="logo-esquerda">
+  <img src="logo-central.png" alt="Logo Central" class="logo-central">
+  <img src="logo-secundaria.png" alt="Segunda Logo" class="logo-direita">
+</header>
+
+<div class="container">
+  <form id="formCadastro">
+    <h2>Ficha de Inscrição</h2>
+
+    <div class="grupo">
+      <div class="campo"><label>Nome Completo</label><input type="text" id="nome" required></div>
+      <div class="campo"><label>Data de Nascimento</label><input type="date" id="nascimento" required></div>
+      <div class="campo"><label>Estado Civil</label>
+        <select id="estadoCivil" required>
+          <option value="">Selecione</option><option>Solteiro(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viúvo(a)</option><option>União Estável</option>
+        </select>
+      </div>
+      <div class="campo"><label>Gênero</label>
+        <select id="genero" required>
+          <option value="">Selecione</option><option>Masculino</option><option>Feminino</option>
+        </select>
+      </div>
+      <div class="campo"><label>Nacionalidade</label><input type="text" id="nacionalidade" required></div>
+      <div class="campo"><label>Naturalidade</label><input type="text" id="naturalidade" required></div>
+      <div class="campo"><label>RG</label><input type="text" id="rg" required pattern="\d+" title="Digite apenas números"></div>
+      <div class="campo"><label>Orgão Emissor</label><input type="text" id="orgao"></div>
+      <div class="campo"><label>UF (RG)</label><input type="text" id="uf_rg"></div>
+      <div class="campo"><label>CPF</label><input type="text" id="cpf" required pattern="\d{11}" title="Digite 11 números do CPF sem pontos ou traços"></div>
+    </div>
+
+    <h3>Endereço</h3>
+    <div class="grupo">
+      <div class="campo"><label>Endereço Completo</label><input type="text" id="endereco"></div>
+      <div class="campo"><label>Bairro</label><input type="text" id="bairro"></div>
+      <div class="campo"><label>Cidade</label><input type="text" id="cidade"></div>
+      <div class="campo"><label>UF</label><input type="text" id="uf_end"></div>
+      <div class="campo"><label>CEP</label><input type="text" id="cep" pattern="\d+" title="Digite apenas números"></div>
+      <div class="campo"><label>Telefone</label><input type="text" id="telefone" pattern="\d+" title="Digite apenas números"></div>
+      <div class="campo"><label>WhatsApp</label><input type="text" id="whatsapp"></div>
+      <div class="campo"><label>Email</label><input type="email" id="email"></div>
+    </div>
+
+    <h3>Escolaridade</h3>
+    <div class="grupo">
+      <div class="campo">
+        <label>Escolaridade</label>
+        <select id="escolaridade" required>
+          <option value="">Selecione</option>
+          <option>Ensino Fundamental Incompleto</option>
+          <option>Ensino Fundamental Completo</option>
+          <option>Ensino Médio Incompleto</option>
+          <option>Ensino Médio Completo</option>
+          <option>Superior Incompleto</option>
+          <option>Superior Completo</option>
+          <option>Pós-Graduação</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit">Enviar</button>
+  </form>
+</div>
+
+<a href="https://wa.me/5511962191816" target="_blank" class="whatsapp-button">
+  <img src="Icone.png" alt="WhatsApp">
+</a>
+
+<script>
+  function validarCPF(cpf) {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+    let soma = 0;
+    for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+    let resto = 11 - (soma % 11);
+    let dig1 = resto > 9 ? 0 : resto;
+
+    soma = 0;
+    for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+    resto = 11 - (soma % 11);
+    let dig2 = resto > 9 ? 0 : resto;
+
+    return dig1 == cpf.charAt(9) && dig2 == cpf.charAt(10);
+  }
+
+  document.getElementById("formCadastro").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const cpf = document.getElementById("cpf").value;
+    if (!validarCPF(cpf)) {
+      alert("CPF inválido. Verifique e tente novamente.");
+      return;
+    }
+
+    const campos = [
+      { label: "Nome", id: "nome" },
+      { label: "Nascimento", id: "nascimento" },
+      { label: "Estado Civil", id: "estadoCivil" },
+      { label: "Gênero", id: "genero" },
+      { label: "Nacionalidade", id: "nacionalidade" },
+      { label: "Naturalidade", id: "naturalidade" },
+      { label: "RG", id: "rg" },
+      { label: "Orgão Emissor", id: "orgao" },
+      { label: "UF (RG)", id: "uf_rg" },
+      { label: "CPF", id: "cpf" },
+      { label: "Endereço", id: "endereco" },
+      { label: "Bairro", id: "bairro" },
+      { label: "Cidade", id: "cidade" },
+      { label: "UF", id: "uf_end" },
+      { label: "CEP", id: "cep" },
+      { label: "Telefone", id: "telefone" },
+      { label: "WhatsApp", id: "whatsapp" },
+      { label: "Email", id: "email" },
+      { label: "Escolaridade", id: "escolaridade" }
+    ];
+
+    let mensagem = "📋 *Dados de Cadastro:*\n\n";
+    let textoPDF = "FICHA DE INSCRIÇÃO\n\n";
+
+    campos.forEach(campo => {
+      const valor = document.getElementById(campo.id).value;
+      mensagem += `*${campo.label}:* ${valor}\n`;
+      textoPDF += `${campo.label}: ${valor}\n`;
+    });
+
+    const numeroDestino = "5511962191816";
+    const url = `https://api.whatsapp.com/send?phone=${numeroDestino}&text=${encodeURIComponent(mensagem)}`;
+
+    window.open(url, '_blank');
+
+    gerarPDF(textoPDF);
+  });
+
+  async function gerarPDF(texto) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const linhas = doc.splitTextToSize(texto, 180);
+    doc.text(linhas, 10, 10);
+    doc.save("ficha-inscricao.pdf");
+  }
+</script>
+
+</body>
+</html>
