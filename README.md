@@ -1,125 +1,120 @@
-# 📝 Formulário de Inscrição — Curso EAD
+﻿<div align="center">
 
-<div align="center">
+#  Ficha de Inscrição  Curso EAD
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![jsPDF](https://img.shields.io/badge/jsPDF-2.5-EC5990?style=for-the-badge)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=githubpages&logoColor=white)
 
-**Formulário web de inscrição para cursos EAD do ITB, com envio automático via WhatsApp e geração de PDF.**
+**Formulário de inscrição profissional para cursos de Educação a Distância com envio automático via WhatsApp e geração de comprovante PDF.**
 
-[Ver Demo](#-como-usar) · [Reportar Bug](https://github.com/jovemegidio/form-ead/issues)
+[Ver Demonstração](https://jovemegidio.github.io/form-ead)  [Reportar Bug](https://github.com/jovemegidio/form-ead/issues)
 
 </div>
 
 ---
 
-## 📸 Sobre o Projeto
+##  Funcionalidades
 
-Sistema de ficha de inscrição digital para cursos de Educação a Distância (EAD). O formulário coleta dados pessoais, endereço e escolaridade do candidato, enviando automaticamente as informações via WhatsApp e gerando um PDF para download.
-
-> Desenvolvido como solução prática para digitalizar o processo de matrícula, eliminando formulários em papel.
-
----
-
-## ✨ Funcionalidades
-
-| Recurso | Descrição |
-|---------|-----------|
-| 📋 **Formulário completo** | Dados pessoais, endereço e escolaridade |
-| ✅ **Validação de CPF** | Algoritmo completo de verificação dos dígitos |
-| 📱 **Envio via WhatsApp** | Dados formatados enviados direto pelo WhatsApp Web |
-| 📄 **Geração de PDF** | Download automático da ficha em PDF com jsPDF |
-| 🔒 **Validação de campos** | Campos obrigatórios com padrões (RG, CPF, CEP, telefone) |
-| 💬 **Botão flutuante** | Atalho para WhatsApp fixo no canto da tela |
-| 🖥️ **Header fixo** | Barra superior com logos que acompanha o scroll |
-| 📱 **Layout responsivo** | Formulário adaptável com Flexbox |
+| Funcionalidade | Descrição |
+|---|---|
+|  **Design Profissional** | Interface moderna com fonte Inter, cards com sombra e gradientes institucionais |
+|  **Barra de Progresso** | Indicador visual de 3 etapas que acompanha o scroll do formulário |
+|  **Máscaras de Input** | Formatação automática para CPF, CEP, Telefone e WhatsApp |
+|  **Validação de CPF** | Verificação em tempo real com feedback visual (toast) ao sair do campo |
+|  **Envio via WhatsApp** | Dados formatados enviados automaticamente para o número institucional |
+|  **Comprovante PDF** | PDF estilizado com cabeçalho verde, campos em negrito e rodapé com data |
+|  **WhatsApp FAB** | Botão flutuante com tooltip para contato rápido |
+|  **100% Responsivo** | Layout adaptável para desktop, tablet e celular |
+|  **Animações Suaves** | Transições CSS e efeito fade-up nas seções do formulário |
+|  **Toast Notifications** | Alertas visuais elegantes para sucesso e erros |
 
 ---
 
-## 📋 Campos do Formulário
+##  Stack Tecnológica
 
-### Dados Pessoais
-- Nome Completo
-- Data de Nascimento
-- Estado Civil (Solteiro, Casado, Divorciado, Viúvo, União Estável)
-- Gênero (Masculino, Feminino)
-- Nacionalidade / Naturalidade
-- RG, Órgão Emissor e UF
-- CPF (com validação)
-
-### Endereço
-- Endereço Completo, Bairro, Cidade, UF, CEP
-- Telefone, WhatsApp, E-mail
-
-### Escolaridade
-- Ensino Fundamental (Incompleto/Completo)
-- Ensino Médio (Incompleto/Completo)
-- Superior (Incompleto/Completo)
-- Pós-Graduação
+| Tecnologia | Uso |
+|---|---|
+| **HTML5** | Estrutura semântica e acessível |
+| **CSS3** | CSS Variables, Grid, Flexbox, Backdrop-filter, Animations |
+| **JavaScript** | Máscaras, validação, IntersectionObserver, PDF |
+| **jsPDF 2.5** | Geração de comprovante PDF no navegador |
+| **Google Fonts** | Tipografia Inter (300800) |
 
 ---
 
-## 🛠️ Tecnologias
+##  Design
 
-- **HTML5** — Estrutura semântica do formulário
-- **CSS3** — Layout responsivo com Flexbox, estilização e efeitos visuais
-- **JavaScript (ES6)** — Validação de CPF, envio via WhatsApp API e geração de PDF
-- **[jsPDF](https://github.com/parallax/jsPDF)** — Biblioteca para geração de documentos PDF no navegador
+- **Paleta:** Verde institucional `#00703c` com variações light/dark
+- **Tipografia:** Inter  peso 300 a 800
+- **Layout:** Seções em cards com `border-radius: 12px`
+- **Hero:** Gradiente 135° com padrão SVG sutil
+- **Formulário:** Grid responsivo `minmax(220px, 1fr)`
+- **Botão:** Gradiente + sombra com efeito hover elevado
 
 ---
 
-## 📁 Estrutura do Projeto
+##  Estrutura
 
 ```
 form-ead/
-├── form-ead.html        # Página principal (HTML + CSS + JS embutidos)
-├── Icone.png            # Ícone do botão flutuante do WhatsApp
-├── favicon.png          # Favicon do site
-├── logo-central.png     # Logo central do header
-├── logo-panel.jpg       # Logo esquerda do header
-├── logo-secundaria.png  # Logo direita do header
-└── README.md            # Documentação
+ index.html            # Página principal (formulário completo)
+ favicon.png           # Ícone da aba
+ Icone.png             # Ícone do botão WhatsApp
+ logo-panel.jpg        # Logo esquerda (header)
+ logo-central.png      # Logo central (header)
+ logo-secundaria.png   # Logo direita (header)
+ README.md             # Documentação
 ```
 
 ---
 
-## 🚀 Como Usar
+##  Campos do Formulário
 
-### Opção 1 — Abrir diretamente
+### 1 Dados Pessoais
+Nome Completo  Data de Nascimento  Estado Civil  Gênero  Nacionalidade  Naturalidade  RG  Órgão Emissor  UF (RG)  CPF
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/jovemegidio/form-ead.git
-   ```
-2. Abra o arquivo `form-ead.html` no navegador.
+### 2 Endereço
+Endereço Completo  Bairro  Cidade  UF  CEP  Telefone  WhatsApp  Email
 
-### Opção 2 — Com Live Server (VS Code)
-
-1. Instale a extensão **Live Server** no VS Code.
-2. Clique com o botão direito em `form-ead.html` → **Open with Live Server**.
+### 3 Escolaridade
+Nível de escolaridade (Fundamental a Pós-Graduação)
 
 ---
 
-## ⚙️ Como Funciona
+##  Fluxo de Funcionamento
 
-1. O usuário preenche todos os campos do formulário.
-2. Ao clicar em **Enviar**, o sistema:
-   - **Valida o CPF** com algoritmo de dígitos verificadores.
-   - **Formata os dados** em uma mensagem organizada.
-   - **Abre o WhatsApp Web** com a mensagem pronta para envio.
-   - **Gera e baixa um PDF** com todos os dados preenchidos.
+```
+Usuário preenche formulário
+         
+         
+  Validação de CPF  Toast de erro + foco no campo
+         
+         
+         
+  Loading spinner (800ms)
+         
+         
+  
+                
+WhatsApp      PDF gerado
+(nova aba)    (download)
+                
+  
+         
+  Toast de sucesso 
+```
 
 ---
 
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Sinta-se livre para usar e modificar.
-
----
+##  Autor
 
 <div align="center">
 
-Feito com ❤️ por [jovemegidio](https://github.com/jovemegidio)
+Desenvolvido por **@jovemegidio**
+
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jovemegidio)
 
 </div>

@@ -1,0 +1,836 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscri&#231;&#227;o - Curso EAD | Instituto T&#233;cnico de Barueri</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #00703c;
+      --primary-light: #00904d;
+      --primary-dark: #005a2f;
+      --primary-glow: rgba(0,112,60,.15);
+      --accent: #00c853;
+      --bg: #f0f2f5;
+      --bg-card: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #555770;
+      --text-muted: #8b8da3;
+      --border: #e1e4e8;
+      --border-focus: #00703c;
+      --error: #e53935;
+      --error-bg: #ffeaea;
+      --success: #00c853;
+      --success-bg: #e8f5e9;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
+      --shadow-lg: 0 4px 6px rgba(0,0,0,.04), 0 10px 40px rgba(0,0,0,.08);
+      --shadow-btn: 0 4px 14px rgba(0,112,60,.35);
+      --transition: .2s cubic-bezier(.4,0,.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /*  HEADER  */
+    .header {
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,.92);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+    }
+    .header img {
+      max-height: 48px;
+      height: auto;
+      width: auto;
+      object-fit: contain;
+    }
+    .header-center { position: absolute; left: 50%; transform: translateX(-50%); }
+
+    /*  HERO BANNER  */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+      color: #fff;
+      text-align: center;
+      padding: 56px 24px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 800;
+      letter-spacing: -.5px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .hero p {
+      font-size: 15px;
+      opacity: .85;
+      max-width: 500px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /*  PROGRESS STEPS  */
+    .steps-bar {
+      max-width: 800px;
+      margin: -24px auto 0;
+      position: relative;
+      z-index: 10;
+      padding: 0 24px;
+    }
+    .steps {
+      display: flex;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .step {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: var(--transition);
+      position: relative;
+      cursor: default;
+    }
+    .step.active {
+      color: var(--primary);
+      background: var(--primary-glow);
+    }
+    .step.completed {
+      color: var(--success);
+    }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .step.active .step-num {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-glow);
+    }
+    .step.completed .step-num {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success);
+    }
+
+    /*  FORM CONTAINER  */
+    .form-wrapper {
+      max-width: 800px;
+      margin: 32px auto 80px;
+      padding: 0 24px;
+    }
+
+    .form-section {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 32px;
+      margin-bottom: 20px;
+      animation: fadeUp .4s ease both;
+    }
+    .form-section:nth-child(2) { animation-delay: .08s; }
+    .form-section:nth-child(3) { animation-delay: .16s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: var(--primary-glow);
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .section-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /*  FORM GRID  */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .form-grid .full { grid-column: 1 / -1; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .field label .req {
+      color: var(--error);
+      font-weight: 700;
+    }
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text);
+      transition: var(--transition);
+      outline: none;
+    }
+    .field input::placeholder { color: var(--text-muted); }
+    .field input:hover,
+    .field select:hover { border-color: #c0c4cc; }
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+    .field input.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(229,57,53,.1);
+    }
+    .field .error-msg {
+      font-size: 12px;
+      color: var(--error);
+      display: none;
+    }
+    .field input.error ~ .error-msg { display: block; }
+
+    /*  SUBMIT  */
+    .submit-area {
+      text-align: center;
+      animation: fadeUp .4s ease .24s both;
+    }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 480px;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: inherit;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all .25s ease;
+      box-shadow: var(--shadow-btn);
+      letter-spacing: .3px;
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,112,60,.4);
+    }
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+    .btn-submit svg { width: 20px; height: 20px; }
+    .submit-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    /*  TOAST  */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      background: var(--text);
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 30px rgba(0,0,0,.15);
+      z-index: 200;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all .3s ease;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.error { background: var(--error); }
+    .toast.success { background: var(--success); color: #000; }
+
+    /*  WHATSAPP FAB  */
+    .whatsapp-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 150;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(37,211,102,.4);
+      transition: all .25s ease;
+      text-decoration: none;
+    }
+    .whatsapp-fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(37,211,102,.5);
+    }
+    .whatsapp-fab img { width: 28px; height: 28px; }
+    .whatsapp-fab .tooltip {
+      position: absolute;
+      right: 64px;
+      background: var(--text);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .whatsapp-fab:hover .tooltip { opacity: 1; }
+
+    /*  FOOTER  */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .footer a { color: var(--primary); text-decoration: none; }
+
+    /*  RESPONSIVE  */
+    @media (max-width: 640px) {
+      .header-inner { padding: 10px 16px; }
+      .header img { max-height: 36px; }
+      .hero { padding: 40px 16px 36px; }
+      .steps-bar { margin-top: -18px; }
+      .step span { display: none; }
+      .step { padding: 12px 8px; }
+      .form-section { padding: 20px 16px; }
+      .form-grid { grid-template-columns: 1fr; gap: 14px; }
+      .form-wrapper { margin: 24px auto 60px; padding: 0 12px; }
+    }
+
+    /*  LOADING STATE  */
+    .btn-submit.loading {
+      pointer-events: none;
+      opacity: .7;
+    }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2.5px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      display: none;
+    }
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <img src="logo-panel.jpg" alt="Instituto Betuel">
+    <div class="header-center">
+      <img src="logo-central.png" alt="Logo Central">
+    </div>
+    <img src="logo-secundaria.png" alt="Parceiro">
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">&#128187; Educa&#231;&#227;o a Dist&#226;ncia 2026</div>
+  <h1>Ficha de Inscri&#231;&#227;o &#8212; Curso EAD</h1>
+  <p>Preencha seus dados abaixo para se inscrever nos cursos de Educa&#231;&#227;o a Dist&#226;ncia</p>
+</section>
+
+<!-- PROGRESS STEPS -->
+<div class="steps-bar">
+  <div class="steps">
+    <div class="step active" data-step="1">
+      <span class="step-num">1</span>
+      <span>Dados Pessoais</span>
+    </div>
+    <div class="step" data-step="2">
+      <span class="step-num">2</span>
+      <span>Endere&#231;o</span>
+    </div>
+    <div class="step" data-step="3">
+      <span class="step-num">3</span>
+      <span>Escolaridade</span>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrapper">
+  <form id="formCadastro" novalidate>
+
+    <!-- Section 1: Dados Pessoais -->
+    <div class="form-section" data-section="1">
+      <div class="section-header">
+        <div class="section-icon">&#128100;</div>
+        <div>
+          <h2>Dados Pessoais</h2>
+          <p>Informa&#231;&#245;es b&#225;sicas do aluno</p>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="field full">
+          <label>Nome Completo <span class="req">*</span></label>
+          <input type="text" id="nome" placeholder="Ex: Antonio Egidio Neto" required>
+        </div>
+        <div class="field">
+          <label>Data de Nascimento <span class="req">*</span></label>
+          <input type="date" id="nascimento" required>
+        </div>
+        <div class="field">
+          <label>Estado Civil <span class="req">*</span></label>
+          <select id="estadoCivil" required>
+            <option value="">Selecione</option>
+            <option>Solteiro(a)</option>
+            <option>Casado(a)</option>
+            <option>Divorciado(a)</option>
+            <option>Vi&#250;vo(a)</option>
+            <option>Uni&#227;o Est&#225;vel</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>G&#234;nero <span class="req">*</span></label>
+          <select id="genero" required>
+            <option value="">Selecione</option>
+            <option>Masculino</option>
+            <option>Feminino</option>
+            <option>Outro</option>
+            <option>Prefiro n&#227;o informar</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Nacionalidade <span class="req">*</span></label>
+          <input type="text" id="nacionalidade" placeholder="Ex: Brasileira" required>
+        </div>
+        <div class="field">
+          <label>Naturalidade <span class="req">*</span></label>
+          <input type="text" id="naturalidade" placeholder="Ex: Barueri - SP" required>
+        </div>
+        <div class="field">
+          <label>RG <span class="req">*</span></label>
+          <input type="text" id="rg" placeholder="Somente n&#250;meros" required pattern="\d+" title="Digite apenas n&#250;meros">
+          <span class="error-msg">Digite apenas n&#250;meros</span>
+        </div>
+        <div class="field">
+          <label>&#211;rg&#227;o Emissor</label>
+          <input type="text" id="orgao" placeholder="Ex: SSP/SP">
+        </div>
+        <div class="field">
+          <label>UF (RG)</label>
+          <input type="text" id="uf_rg" placeholder="Ex: SP" maxlength="2">
+        </div>
+        <div class="field">
+          <label>CPF <span class="req">*</span></label>
+          <input type="text" id="cpf" placeholder="000.000.000-00" required maxlength="14">
+          <span class="error-msg">CPF inv&#225;lido</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Endereco -->
+    <div class="form-section" data-section="2">
+      <div class="section-header">
+        <div class="section-icon">&#128205;</div>
+        <div>
+          <h2>Endere&#231;o</h2>
+          <p>Dados de localiza&#231;&#227;o residencial</p>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="field full">
+          <label>Endere&#231;o Completo</label>
+          <input type="text" id="endereco" placeholder="Rua, n&#250;mero, complemento">
+        </div>
+        <div class="field">
+          <label>Bairro</label>
+          <input type="text" id="bairro" placeholder="Ex: Centro">
+        </div>
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" id="cidade" placeholder="Ex: Barueri">
+        </div>
+        <div class="field">
+          <label>UF</label>
+          <input type="text" id="uf_end" placeholder="Ex: SP" maxlength="2">
+        </div>
+        <div class="field">
+          <label>CEP</label>
+          <input type="text" id="cep" placeholder="00000-000" maxlength="9">
+        </div>
+        <div class="field">
+          <label>Telefone</label>
+          <input type="text" id="telefone" placeholder="(00) 0000-0000">
+        </div>
+        <div class="field">
+          <label>WhatsApp</label>
+          <input type="text" id="whatsapp" placeholder="(00) 00000-0000">
+        </div>
+        <div class="field full">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="seu@email.com">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Escolaridade -->
+    <div class="form-section" data-section="3">
+      <div class="section-header">
+        <div class="section-icon">&#127891;</div>
+        <div>
+          <h2>Escolaridade</h2>
+          <p>N&#237;vel de forma&#231;&#227;o acad&#234;mica</p>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="field full">
+          <label>Escolaridade <span class="req">*</span></label>
+          <select id="escolaridade" required>
+            <option value="">Selecione seu n&#237;vel de escolaridade</option>
+            <option>Ensino Fundamental Incompleto</option>
+            <option>Ensino Fundamental Completo</option>
+            <option>Ensino M&#233;dio Incompleto</option>
+            <option>Ensino M&#233;dio Completo</option>
+            <option>Superior Incompleto</option>
+            <option>Superior Completo</option>
+            <option>P&#243;s-Gradua&#231;&#227;o</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">
+        <div class="spinner"></div>
+        <span class="btn-text">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+          Enviar Inscri&#231;&#227;o
+        </span>
+      </button>
+      <p class="submit-hint">Seus dados ser&#227;o enviados via WhatsApp e um comprovante PDF ser&#225; gerado automaticamente</p>
+    </div>
+
+  </form>
+</div>
+
+<!-- WhatsApp FAB -->
+<a href="https://wa.me/5511962191816" target="_blank" class="whatsapp-fab" aria-label="Fale conosco no WhatsApp">
+  <span class="tooltip">Precisa de ajuda?</span>
+  <img src="Icone.png" alt="WhatsApp">
+</a>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Footer -->
+<footer class="footer">
+  Cursos EAD &mdash; Todos os direitos reservados &copy; 2026
+  <br>Desenvolvido por <a href="https://github.com/jovemegidio" target="_blank">@jovemegidio</a>
+</footer>
+
+<script>
+  //  Toast
+  function showToast(msg, type) {
+    type = type || '';
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(function(){ t.className = 'toast'; }, 3500);
+  }
+
+  //  Steps progress
+  function updateSteps(active) {
+    document.querySelectorAll('.step').forEach(function(s){
+      var n = parseInt(s.dataset.step);
+      s.classList.remove('active', 'completed');
+      if (n === active) s.classList.add('active');
+      else if (n < active) s.classList.add('completed');
+    });
+  }
+
+  // Observe scroll to update steps
+  var sections = document.querySelectorAll('.form-section');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        updateSteps(parseInt(e.target.dataset.section));
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(function(s){ observer.observe(s); });
+
+  //  CPF mask
+  document.getElementById('cpf').addEventListener('input', function(e){
+    var v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+    else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+    else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+    e.target.value = v;
+  });
+
+  //  CEP mask
+  document.getElementById('cep').addEventListener('input', function(e){
+    var v = e.target.value.replace(/\D/g, '').slice(0, 8);
+    if (v.length > 5) v = v.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+    e.target.value = v;
+  });
+
+  //  Phone masks
+  ['telefone', 'whatsapp'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', function(e){
+      var v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{1,4})/, '($1) $2-$3');
+      else if (v.length > 2) v = v.replace(/(\d{2})(\d{1,5})/, '($1) $2');
+      e.target.value = v;
+    });
+  });
+
+  //  CPF validation
+  function validarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    var soma = 0;
+    for (var i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+    var resto = 11 - (soma % 11);
+    var dig1 = resto > 9 ? 0 : resto;
+    soma = 0;
+    for (var i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+    resto = 11 - (soma % 11);
+    var dig2 = resto > 9 ? 0 : resto;
+    return dig1 == cpf.charAt(9) && dig2 == cpf.charAt(10);
+  }
+
+  //  Real-time CPF validation
+  document.getElementById('cpf').addEventListener('blur', function(){
+    var raw = this.value.replace(/\D/g, '');
+    if (raw.length === 11 && !validarCPF(raw)) {
+      this.classList.add('error');
+      showToast('CPF inv\u00e1lido. Verifique os d\u00edgitos.', 'error');
+    } else {
+      this.classList.remove('error');
+    }
+  });
+
+  //  Form submission
+  document.getElementById('formCadastro').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var cpfRaw = document.getElementById('cpf').value.replace(/\D/g, '');
+    if (!validarCPF(cpfRaw)) {
+      document.getElementById('cpf').classList.add('error');
+      showToast('CPF inv\u00e1lido. Verifique e tente novamente.', 'error');
+      document.getElementById('cpf').focus();
+      return;
+    }
+
+    var btn = document.querySelector('.btn-submit');
+    btn.classList.add('loading');
+
+    var campos = [
+      { label: 'Nome', id: 'nome' },
+      { label: 'Nascimento', id: 'nascimento' },
+      { label: 'Estado Civil', id: 'estadoCivil' },
+      { label: 'G\u00eanero', id: 'genero' },
+      { label: 'Nacionalidade', id: 'nacionalidade' },
+      { label: 'Naturalidade', id: 'naturalidade' },
+      { label: 'RG', id: 'rg' },
+      { label: '\u00d3rg\u00e3o Emissor', id: 'orgao' },
+      { label: 'UF (RG)', id: 'uf_rg' },
+      { label: 'CPF', id: 'cpf' },
+      { label: 'Endere\u00e7o', id: 'endereco' },
+      { label: 'Bairro', id: 'bairro' },
+      { label: 'Cidade', id: 'cidade' },
+      { label: 'UF', id: 'uf_end' },
+      { label: 'CEP', id: 'cep' },
+      { label: 'Telefone', id: 'telefone' },
+      { label: 'WhatsApp', id: 'whatsapp' },
+      { label: 'Email', id: 'email' },
+      { label: 'Escolaridade', id: 'escolaridade' }
+    ];
+
+    var mensagem = '\ud83d\udccb *Ficha de Inscri\u00e7\u00e3o - Curso EAD*\n\n';
+    var textoPDF = '';
+
+    campos.forEach(function(campo){
+      var valor = document.getElementById(campo.id).value;
+      mensagem += '*' + campo.label + ':* ' + valor + '\n';
+      textoPDF += campo.label + ': ' + valor + '\n';
+    });
+
+    var numero = '5511962191816';
+    var url = 'https://api.whatsapp.com/send?phone=' + numero + '&text=' + encodeURIComponent(mensagem);
+
+    setTimeout(function(){
+      window.open(url, '_blank');
+      gerarPDF(textoPDF, document.getElementById('nome').value);
+      btn.classList.remove('loading');
+      showToast('Inscri\u00e7\u00e3o enviada com sucesso!', 'success');
+    }, 800);
+  });
+
+  //  PDF generation
+  function gerarPDF(texto, nomeAluno) {
+    var jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF();
+
+    // Header
+    doc.setFillColor(0, 112, 60);
+    doc.rect(0, 0, 210, 35, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(20);
+    doc.setFont(undefined, 'bold');
+    doc.text('FICHA DE INSCRI\u00c7\u00c3O', 105, 18, { align: 'center' });
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text('Curso EAD - Educa\u00e7\u00e3o a Dist\u00e2ncia', 105, 28, { align: 'center' });
+
+    // Body
+    doc.setTextColor(30, 30, 50);
+    doc.setFontSize(11);
+    var linhas = texto.split('\n');
+    var y = 50;
+    linhas.forEach(function(linha){
+      if (y > 270) { doc.addPage(); y = 20; }
+      var parts = linha.split(': ');
+      if (parts.length >= 2) {
+        doc.setFont(undefined, 'bold');
+        doc.text(parts[0] + ':', 15, y);
+        doc.setFont(undefined, 'normal');
+        doc.text(parts.slice(1).join(': '), 70, y);
+      }
+      y += 8;
+    });
+
+    // Footer
+    y += 10;
+    doc.setDrawColor(0, 112, 60);
+    doc.setLineWidth(0.5);
+    doc.line(15, y, 195, y);
+    y += 8;
+    doc.setFontSize(9);
+    doc.setTextColor(120, 120, 140);
+    var now = new Date();
+    doc.text('Gerado em ' + now.toLocaleDateString('pt-BR') + ' \u00e0s ' + now.toLocaleTimeString('pt-BR'), 15, y);
+    doc.text('Curso EAD', 195, y, { align: 'right' });
+
+    doc.save('inscricao-ead-' + (nomeAluno.split(' ')[0].toLowerCase() || 'aluno') + '.pdf');
+  }
+</script>
+
+</body>
+</html>
